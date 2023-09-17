@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:islami/home/quran/item_sura_appear.dart.dart';
+import 'package:islami/providers/app_config_provider.dart';
+import 'package:provider/provider.dart';
 
 class ItemSuraDetails extends StatefulWidget {
   static const String routeName = 'sura_details';
@@ -14,17 +16,25 @@ class _ItemSuraDetailsState extends State<ItemSuraDetails> {
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<AppConfigProvider>(context);
     var args = ModalRoute.of(context)?.settings.arguments as SuraDetailsArgs;
     if (verses.isEmpty) {
       loadFiles(args.index);
     }
     return Stack(children: [
-      Image.asset(
-        'assets/images/background.png',
-        width: double.infinity,
-        height: double.infinity,
-        fit: BoxFit.fill,
-      ),
+      provider.appTheme == ThemeMode.light
+          ? Image.asset(
+              'assets/images/background.png',
+              width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.fill,
+            )
+          : Image.asset(
+              'assets/images/background_dark.png',
+              width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.fill,
+            ),
       Scaffold(
         appBar: AppBar(
           title: Text(
@@ -36,16 +46,16 @@ class _ItemSuraDetailsState extends State<ItemSuraDetails> {
             ? Center(
                 child: CircularProgressIndicator(
                   color: Theme.of(context).primaryColor,
-                ),
-              )
+          ),
+        )
             : ListView.builder(
-                itemCount: verses.length,
-                itemBuilder: (context, index) {
-                  return ItemSUraAppear(
-                    content: verses[index],
-                    index: index,
-                  );
-                }),
+            itemCount: verses.length,
+            itemBuilder: (context, index) {
+              return ItemSUraAppear(
+                content: verses[index],
+                index: index,
+              );
+            }),
       )
     ]);
   }
@@ -55,7 +65,6 @@ class _ItemSuraDetailsState extends State<ItemSuraDetails> {
         await rootBundle.loadString('assets/files/${index + 1}.txt');
     List<String> lines = content.split('\n');
     verses = lines;
-    print(lines);
     setState(() {});
   }
 }
@@ -63,6 +72,5 @@ class _ItemSuraDetailsState extends State<ItemSuraDetails> {
 class SuraDetailsArgs {
   String name;
   int index;
-
   SuraDetailsArgs({required this.name, required this.index});
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:islami/providers/app_config_provider.dart';
+import 'package:provider/provider.dart';
 
 class SebhaTab extends StatefulWidget {
   static const String routeName = 'sebhaname';
@@ -31,9 +33,13 @@ class _SebhaTabState extends State<SebhaTab> {
 
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<AppConfigProvider>(context);
     return Column(
       children: [
-        Center(child: Image.asset('assets/images/head_ of_ seb7a.png')),
+        Center(
+            child: provider.appTheme == ThemeMode.light
+                ? Image.asset('assets/images/head_ of_ seb7a.png')
+                : Image.asset('assets/images/head_ of_ seb7a.png')),
         Center(
             child: InkWell(
                 onTap: () {
@@ -49,7 +55,7 @@ class _SebhaTabState extends State<SebhaTab> {
           height: 40,
         ),
         Text(
-          'Number of hymns',
+          'عدد التسبيحات',
           style: Theme.of(context).textTheme.titleLarge,
         ),
         SizedBox(

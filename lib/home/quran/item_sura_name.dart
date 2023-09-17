@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:islami/home/quran/item_sura_details.dart';
-
 class ItemSUraName extends StatelessWidget {
   String name;
   int index;
-
   ItemSUraName({required this.name, required this.index});
-
   @override
   Widget build(BuildContext context) {
     return InkWell(
